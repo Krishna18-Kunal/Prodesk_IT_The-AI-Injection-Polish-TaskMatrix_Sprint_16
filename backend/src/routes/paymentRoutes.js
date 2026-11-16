@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { createOrder, verifyPayment } from '../controllers/paymentController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validateBody } from '../middleware/validate.js';
+import { createOrderSchema, verifyPaymentSchema } from '../validators/schemas.js';
+const router = Router();
+router.use(requireAuth);
+router.post('/create-order', validateBody(createOrderSchema), createOrder);
+router.post('/verify', validateBody(verifyPaymentSchema), verifyPayment);
+export default router;
