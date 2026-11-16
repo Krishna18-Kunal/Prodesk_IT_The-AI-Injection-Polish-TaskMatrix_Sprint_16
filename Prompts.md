@@ -1,42 +1,180 @@
-# TaskMatrix Sprint 16 — AI Prompts and Development Log
+# TaskMatrix --- Prompt Library
 
-## Project objective
-Build a responsive full-stack task management application with secure authentication, task CRUD, and a server-side Gemini AI microfeature that suggests actionable subtasks.
+This document contains reusable prompts for planning, developing,
+reviewing, and improving TaskMatrix. These are prompt templates for
+project work; they should not be interpreted as a record of every prompt
+previously used during development.
 
-## Prompt 1 — Architecture
-"Design a maintainable full-stack task management application using React, Vite, Node.js, Express, MongoDB, Mongoose, and JWT. Keep the frontend and backend separate. Use protected routes and ensure users can only access their own tasks."
+## 1. Project Context
 
-## Prompt 2 — Backend validation and errors
-"Add Zod validation to every API request body before database operations. Use centralized error middleware, correct HTTP status codes, safe production error messages, Helmet, and rate limits for authentication and AI endpoints."
+``` text
+I am building TaskMatrix, a full-stack task management application.
+The frontend uses React and Vite. The backend uses Node.js and Express.
+MongoDB is used for data storage, JWT is used for authentication,
+and Google Gemini is integrated to suggest subtasks for a task.
+Keep changes consistent with the existing project structure and coding style.
+```
 
-## Prompt 3 — Gemini AI microfeature
-"Create a server-side Gemini endpoint that accepts a task title and optional description and returns a JSON array of concise, practical subtasks. Keep the API key in the backend environment only. Validate the incoming body, sanitize the generated result, limit output count, and handle provider errors safely."
+## 2. Understand the Existing Code Before Editing
 
-## Prompt 4 — Frontend experience
-"Build a responsive task dashboard with mobile navigation, task create/edit/delete, status filters, toast notifications, loading indicators, and a useful empty state. Call the protected backend API rather than accessing MongoDB or Gemini directly."
+``` text
+Review the existing TaskMatrix code before making changes.
+Identify the relevant frontend components, backend routes, controllers,
+models, middleware, and environment variables.
+Explain the current behavior and the files that need to change.
+Do not rewrite unrelated files or remove working functionality.
+```
 
-## Prompt 5 — QA
-"Test registration, login, protected routes, task ownership, CRUD, invalid request payloads, malformed MongoDB IDs, AI provider failures, rate limiting, and mobile layouts. Document reproducible steps and expected HTTP status codes."
+## 3. Add or Improve a Feature
 
-## Sprint 16 implementation notes
-- Track A: responsive layout, mobile menu, toast messages, loading and empty states, AI subtask interaction.
-- Track B: Zod validation, centralized errors, Gemini integration, server-side secrets, rate limits, Helmet, and payment signature verification.
-- Gemini is optional until `GEMINI_API_KEY` is configured.
-- Razorpay is optional until test credentials are configured.
+``` text
+Implement the following feature in TaskMatrix: [DESCRIBE FEATURE].
 
-## Manual QA checklist
-- [ ] Register with valid details.
-- [ ] Duplicate email returns HTTP 409.
-- [ ] Invalid registration/login payload returns HTTP 400.
-- [ ] Login returns a JWT.
-- [ ] Unauthenticated task request returns HTTP 401.
-- [ ] A user cannot read or change another user's task.
-- [ ] Create, read, update, and delete tasks.
-- [ ] Invalid task ID returns HTTP 400.
-- [ ] Invalid task body returns HTTP 400 before database update.
-- [ ] AI endpoint rejects malformed payloads.
-- [ ] AI endpoint returns sanitized subtasks when Gemini is configured.
-- [ ] AI provider failure returns a safe error response.
-- [ ] Mobile menu opens and closes on small screens.
-- [ ] Toasts and loading/empty states are visible.
-- [ ] Razorpay payment signature is verified server-side.
+Requirements:
+1. Inspect the existing implementation first.
+2. Reuse the current architecture and naming conventions.
+3. Validate user input on the backend.
+4. Handle loading, success, empty, and error states in the frontend.
+5. Keep API calls and secrets on the correct side of the application.
+6. Make the UI responsive and consistent with the existing design.
+7. List every changed file and provide complete code for each required change.
+8. Include commands and steps to test the feature locally.
+```
+
+## 4. Optimize Gemini AI Subtask Suggestions
+
+``` text
+Review and optimize the Gemini AI subtask suggestion flow in TaskMatrix.
+
+Goals:
+- Reduce unnecessary prompt size and response latency.
+- Request a small, predictable JSON response.
+- Limit the number and length of suggested subtasks.
+- Validate and sanitize the model response on the backend.
+- Handle malformed responses, timeouts, rate limits, and API errors safely.
+- Do not expose the Gemini API key to the browser.
+- Return a clear, user-friendly error message without leaking secrets.
+
+Preserve the existing API contract unless a change is necessary.
+Explain the changes and provide a practical test procedure.
+```
+
+## 5. Improve Frontend UI/UX
+
+``` text
+Improve the TaskMatrix interface while preserving its existing functionality.
+
+Focus on:
+- Clear visual hierarchy and readable typography.
+- Responsive layouts for desktop, tablet, and mobile.
+- Accessible labels and keyboard-friendly controls.
+- Consistent buttons, forms, cards, spacing, and colors.
+- Loading indicators, empty states, validation messages, and error feedback.
+
+Avoid adding unnecessary dependencies. Identify the files to update and provide
+complete, compatible code.
+```
+
+## 6. Backend Security Review
+
+``` text
+Review the TaskMatrix backend for common security and reliability issues.
+
+Check:
+- Authentication and authorization on protected routes.
+- Password handling and JWT verification.
+- Request validation and safe error handling.
+- CORS configuration, Helmet, and rate limiting.
+- MongoDB query handling and data ownership checks.
+- Environment variable usage and secret exposure.
+
+Do not claim the application is secure solely because these checks exist.
+Report findings by severity and recommend specific fixes.
+```
+
+## 7. Debug an Error
+
+``` text
+Help me debug this TaskMatrix issue.
+
+Error or unexpected behavior:
+[PASTE ERROR]
+
+Relevant file:
+[PASTE FILE PATH AND CODE]
+
+What I expected:
+[EXPECTED RESULT]
+
+What happened:
+[ACTUAL RESULT]
+
+First identify the likely root cause. Then give me the smallest safe fix,
+exact file path, complete replacement code where needed, and Windows CMD
+commands to run the project and verify the fix.
+Do not guess missing configuration values or ask me to reveal secrets.
+```
+
+## 8. Test a Feature
+
+``` text
+Create a manual test checklist for this TaskMatrix feature: [FEATURE].
+
+Include:
+- Normal successful flow.
+- Invalid and missing input.
+- Unauthenticated and unauthorized access.
+- Empty data and boundary cases.
+- API/network failure.
+- Responsive UI behavior.
+
+For each test, provide steps and the expected result.
+Do not mark a test as passed unless it has actually been run.
+```
+
+## 9. Prepare a GitHub Release
+
+``` text
+Review TaskMatrix for a GitHub-ready release.
+
+Check:
+- README setup instructions match the actual package scripts and folder structure.
+- .env files, API keys, database credentials, and other secrets are excluded.
+- .env.example files contain placeholders only.
+- Installation and run commands are clear.
+- Known limitations are documented honestly.
+- No unverified deployment URL, test result, or feature claim is added.
+
+Provide a concise list of issues to fix before publishing.
+```
+
+## 10. Deployment Planning
+
+``` text
+Prepare a deployment plan for TaskMatrix.
+
+The frontend is React/Vite, the backend is Node.js/Express,
+and the database is MongoDB. Gemini is used for AI suggestions.
+
+Explain:
+- Suitable hosting options for frontend and backend.
+- Required production environment variables.
+- CORS and API base URL configuration.
+- MongoDB network access considerations.
+- Build and start commands based on the actual package.json files.
+- A post-deployment smoke-test checklist.
+
+Do not invent deployment URLs or claim deployment is complete.
+```
+
+## 11. How to Use These Prompts
+
+1.  Choose the prompt that matches the task.
+2.  Replace bracketed placeholders with the actual requirement or error.
+3.  Share only the relevant code and logs.
+4.  Never paste API keys, passwords, JWT secrets, or payment
+    credentials.
+5.  Ask for a small, testable change rather than changing the whole
+    application at once.
+6.  Run the suggested tests and report the actual result before moving
+    to the next change.

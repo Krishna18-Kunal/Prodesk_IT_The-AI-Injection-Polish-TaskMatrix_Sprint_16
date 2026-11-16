@@ -1,116 +1,230 @@
-# TaskMatrix — Sprint 16 (Track A + Track B)
+# TaskMatrix --- AI-Powered Task Management System
 
-A full-stack task manager starter with:
-- React + Vite responsive frontend
-- Express + MongoDB backend
-- JWT authentication and protected task CRUD
-- Gemini AI task-subtask suggestions (server-side API key only)
-- Zod request validation, centralized errors, Helmet, and rate limits
-- Toast feedback, loading states, empty states, and mobile navigation
-- Razorpay order creation and payment verification scaffolding
+TaskMatrix is a full-stack task management application that helps users
+organize work, track progress, and break larger tasks into smaller
+actionable steps with Gemini AI.
 
-## Requirements
-- Node.js 18+ (Node 20 LTS recommended)
-- MongoDB local instance or MongoDB Atlas
-- Gemini API key for AI suggestions (optional)
-- Razorpay test keys for payment flow (optional)
+## Features
 
-## 1. Configure the backend
+-   **User authentication** --- register and log in using JWT-based
+    authentication.
+-   **Task management** --- create, view, update, and delete tasks.
+-   **Task organization** --- manage task priority and status.
+-   **AI subtask suggestions** --- generate practical subtasks for a
+    task using Google Gemini.
+-   **Input validation** --- validate incoming data with Zod schemas.
+-   **API security** --- Helmet security headers and rate limiting.
+-   **Responsive interface** --- React-based dashboard designed for
+    desktop and smaller screens.
+-   **Payment API scaffolding** --- backend Razorpay order/payment
+    verification endpoints are included; configure and test them with
+    Razorpay credentials before treating checkout as production-ready.
 
-```bash
-cd backend
-copy .env.example .env
-```
+## Tech Stack
 
-On macOS/Linux use `cp .env.example .env`.
+  Layer            Technology
+  ---------------- ------------------------------
+  Frontend         React, Vite, JavaScript, CSS
+  Backend          Node.js, Express.js
+  Database         MongoDB Atlas, Mongoose
+  Authentication   JSON Web Token (JWT)
+  AI integration   Google Gemini API
+  Validation       Zod
+  Security         Helmet, express-rate-limit
+  Payments         Razorpay API scaffolding
 
-Edit `backend/.env`:
-- `MONGODB_URI`
-- `JWT_SECRET` (use a long random value)
-- `GEMINI_API_KEY` (optional until using AI)
-- `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` (optional until using payments)
-- `CLIENT_URL`
+## Project Structure
 
-Install and run:
-
-```bash
-npm install
-npm run dev
-```
-
-Backend runs at `http://localhost:5000`. Health check: `http://localhost:5000/api/health`.
-
-## 2. Configure the frontend
-
-Open a second terminal:
-
-```bash
-cd frontend
-copy .env.example .env
-npm install
-npm run dev
-```
-
-Frontend runs at `http://localhost:5173`.
-
-## 3. Test the application
-1. Register a new account.
-2. Log in.
-3. Create, edit, complete, and delete tasks.
-4. Open a task and use **Generate subtasks**. This requires a valid `GEMINI_API_KEY`.
-5. Use the Pricing page to test Razorpay only after adding test credentials and configuring the Razorpay test account.
-
-## API overview
-
-| Method | Endpoint | Auth | Purpose |
-|---|---|---:|---|
-| GET | `/api/health` | No | Health check |
-| POST | `/api/auth/register` | No | Register |
-| POST | `/api/auth/login` | No | Login |
-| GET | `/api/auth/me` | Yes | Current user |
-| GET | `/api/tasks` | Yes | List own tasks |
-| POST | `/api/tasks` | Yes | Create task |
-| GET | `/api/tasks/:id` | Yes | Get own task |
-| PATCH | `/api/tasks/:id` | Yes | Update own task |
-| DELETE | `/api/tasks/:id` | Yes | Delete own task |
-| POST | `/api/ai/suggest` | Yes | Generate task subtasks |
-| POST | `/api/payments/create-order` | Yes | Create Razorpay order |
-| POST | `/api/payments/verify` | Yes | Verify payment signature |
-
-## Security notes
-- Never put Gemini or Razorpay secret keys in `frontend/.env`.
-- Only `VITE_API_URL` belongs in the frontend environment.
-- Use HTTPS and strong secrets in production.
-- Razorpay verification is performed on the server. This starter does not automatically grant premium access; connect the verified payment to your own subscription entitlement/business rules before using real payments.
-- Add email verification, password reset, audit logging, and automated tests before production use.
-
-## Deployment outline
-- Backend: deploy `backend` to Render/Railway/Fly.io; configure all backend environment variables in the provider dashboard.
-- Frontend: deploy `frontend` to Vercel/Netlify; set `VITE_API_URL` to the deployed backend URL ending in `/api`.
-- Set backend `CLIENT_URL` to the deployed frontend origin.
-- Use MongoDB Atlas and Razorpay live keys only after full testing.
-
-## Project structure
-
-```text
+``` text
 TaskMatrix-Sprint16/
 ├── backend/
-│   └── src/
-│       ├── config/
-│       ├── controllers/
-│       ├── middleware/
-│       ├── models/
-│       ├── routes/
-│       ├── utils/
-│       └── validators/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── utils/
+│   │   ├── validators/
+│   │   ├── app.js
+│   │   └── server.js
+│   ├── .env.example
+│   ├── package.json
+│   └── package-lock.json
 ├── frontend/
-│   └── src/
-│       ├── components/
-│       ├── context/
-│       ├── services/
-│       └── styles/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
+│   ├── .env.example
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+├── .gitignore
 ├── Prompts.md
 └── README.md
 ```
 
-This is a fresh Sprint 16 implementation, not a patch merged into your previous Sprint 15 repository. Review the environment values and run both apps locally before deployment.
+## Requirements
+
+Install the following before running the project:
+
+-   Node.js (LTS recommended)
+-   npm
+-   A MongoDB database (for example, MongoDB Atlas)
+-   A Google AI Studio API key for Gemini-powered suggestions
+
+## Getting Started
+
+### 1. Clone the repository
+
+``` bash
+git clone https://github.com/Krishna18-Kunal/Prodesk_IT_The-AI-Injection-Polish-TaskMatrix_Sprint_16.git
+cd Prodesk_IT_The-AI-Injection-Polish-TaskMatrix_Sprint_16
+```
+
+### 2. Configure the backend
+
+``` bash
+cd backend
+npm install
+```
+
+Create a `.env` file in the `backend` directory. Use `.env.example` as a
+reference and provide your own values:
+
+``` env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-host>/<database-name>?retryWrites=true&w=majority
+JWT_SECRET=<long-random-secret>
+JWT_EXPIRES_IN=7d
+CLIENT_URL=http://localhost:5173
+GEMINI_API_KEY=<your-gemini-api-key>
+GEMINI_MODEL=<supported-gemini-model>
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+```
+
+Do not commit your `.env` file or share API keys, database credentials,
+JWT secrets, or payment secrets.
+
+Start the backend:
+
+``` bash
+npm run dev
+```
+
+If your backend `package.json` does not define a `dev` script, use the
+script listed in that file (for example, `npm start`).
+
+### 3. Configure the frontend
+
+Open a second terminal:
+
+``` bash
+cd frontend
+npm install
+```
+
+Create `frontend/.env`:
+
+``` env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Start the frontend:
+
+``` bash
+npm run dev
+```
+
+Open the local URL printed by Vite (commonly `http://localhost:5173`).
+
+## Environment Variables
+
+  -----------------------------------------------------------------------
+  Variable                            Purpose
+  ----------------------------------- -----------------------------------
+  `PORT`                              Backend server port
+
+  `NODE_ENV`                          Runtime environment
+
+  `MONGODB_URI`                       MongoDB connection string
+
+  `JWT_SECRET`                        Secret used to sign JWTs
+
+  `JWT_EXPIRES_IN`                    JWT expiry duration
+
+  `CLIENT_URL`                        Frontend origin allowed by the
+                                      backend
+
+  `GEMINI_API_KEY`                    Google Gemini API key
+
+  `GEMINI_MODEL`                      Gemini model identifier supported
+                                      by your API key/project
+
+  `RAZORPAY_KEY_ID`                   Razorpay key ID, if using payment
+                                      endpoints
+
+  `RAZORPAY_KEY_SECRET`               Razorpay secret, if using payment
+                                      endpoints
+
+  `VITE_API_URL`                      Frontend API base URL
+  -----------------------------------------------------------------------
+
+## API Overview
+
+The backend is organized into route groups for:
+
+-   Authentication (`authRoutes`)
+-   Tasks (`taskRoutes`)
+-   AI subtask suggestions (`aiRoutes`)
+-   Payments (`paymentRoutes`)
+
+For exact endpoint paths, request bodies, and response formats, refer to
+the route and controller files in `backend/src/`.
+
+## Security Notes
+
+-   Keep real environment files out of Git.
+-   Use strong, unique secrets outside local development.
+-   Restrict MongoDB network access to trusted IPs.
+-   Configure production CORS origins and rate limits for your
+    deployment.
+-   Verify payment flows in Razorpay test mode before enabling live
+    payments.
+-   Never put server-side API keys in frontend code.
+
+## Current Scope and Limitations
+
+This repository contains the application source and local development
+configuration examples. Deployment, production monitoring, full
+end-to-end payment checkout, and production security review should be
+completed and tested separately before public production use.
+
+## Future Improvements
+
+-   Deploy the frontend and backend.
+-   Add automated unit and integration tests.
+-   Add task search, filtering, and sorting.
+-   Add reminders, due dates, and notifications.
+-   Add team workspaces and task collaboration.
+-   Complete and thoroughly test the payment checkout and subscription
+    experience.
+-   Add analytics and activity history.
+
+## Author
+
+**Krishna Kunal**
+
+GitHub: [Krishna18-Kunal](https://github.com/Krishna18-Kunal)
+
+## License
+
+No license has been specified yet. Add a `LICENSE` file if you want to
+grant others explicit permission to use, modify, and distribute this
+project.
