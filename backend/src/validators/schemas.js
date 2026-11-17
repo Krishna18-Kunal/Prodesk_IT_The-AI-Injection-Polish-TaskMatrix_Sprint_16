@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 export const registerSchema = z.object({
@@ -18,6 +19,7 @@ export const taskSchema = z.object({
   priority: z.enum(['Low', 'Medium', 'High']).optional().default('Medium'),
   dueDate: z.string().datetime().nullable().optional(),
   subtasks: z.array(z.object({
+    _id: z.string().regex(/^[0-9a-fA-F]{24}$/).optional(),
     title: z.string().trim().min(1).max(160),
     completed: z.boolean().optional().default(false)
   }).strict()).max(20).optional().default([])

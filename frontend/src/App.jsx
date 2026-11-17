@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import Subscription from './components/Subscription';import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Activity, CalendarDays, Check, CheckCircle2, Circle, ClipboardList, LayoutDashboard, LogOut, Menu, Plus, Search, Sparkles, Target, Trash2, X } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -9,7 +9,7 @@ import { apiRequest } from './services/api';
 
 function Dashboard() {
   const { user, token, logout } = useAuth();
-  const [tasks, setTasks] = useState([]);
+ const [showSubscription, setShowSubscription] = useState(false); const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -67,7 +67,16 @@ function Dashboard() {
       <button className="nav-item" onClick={()=>{setFilter('Todo');setMobileOpen(false);}}><ClipboardList size={18}/> To do</button>
       <button className="nav-item" onClick={()=>{setFilter('In Progress');setMobileOpen(false);}}><Activity size={18}/> In progress</button>
       <button className="nav-item" onClick={()=>{setFilter('Done');setMobileOpen(false);}}><CheckCircle2 size={18}/> Completed</button>
-      <div className="sidebar-bottom"><div className="profile-chip"><div className="avatar">{user?.name?.[0]?.toUpperCase()||'U'}</div><div className="profile-info"><strong>{user?.name}</strong><small>{user?.email}</small></div><button className="icon-btn logout" title="Sign out" onClick={logout}><LogOut size={17}/></button></div><p className="version-label">TASKMATRIX · SPRINT 16</p></div>
+ <button
+  className="nav-item premium-nav"
+  onClick={() => {
+    setShowSubscription(true);
+    setMobileOpen(false);
+  }}
+>
+  <Sparkles size={18} />
+  {user?.subscriptionPlan === 'premium' ? 'Premium Active' : 'Upgrade to Premium'}
+</button>     <div className="sidebar-bottom"><div className="profile-chip"><div className="avatar">{user?.name?.[0]?.toUpperCase()||'U'}</div><div className="profile-info"><strong>{user?.name}</strong><small>{user?.email}</small></div><button className="icon-btn logout" title="Sign out" onClick={logout}><LogOut size={17}/></button></div><p className="version-label">TASKMATRIX · SPRINT 16</p></div>
     </aside>
     {mobileOpen && <button className="mobile-scrim" aria-label="Close navigation" onClick={()=>setMobileOpen(false)}/>}
     <main className="main-area">
@@ -97,7 +106,9 @@ function Dashboard() {
       </div>
     </main>
     {modal&&<TaskModal task={modal.task} onClose={()=>setModal(null)} onSave={saveTask} saving={saving}/>}
-  </div>;
+ {showSubscription && (
+  <Subscription onClose={() => setShowSubscription(false)} />
+)} </div>;
 }
 function Stat({icon,label,value,tone}) { return <div className="stat-card"><div className={`stat-icon ${tone}`}>{icon}</div><div><span>{label}</span><strong>{value}</strong></div></div>; }
 function AppContent() {
